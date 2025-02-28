@@ -11,6 +11,7 @@ class Label(Widget):
         text: str,
         id: str | None = None,
         style: StyleT | None = None,
+        line_height: float | None = None,
         **kwargs,
     ):
         """Create a new text label.
@@ -19,14 +20,19 @@ class Label(Widget):
         :param id: The ID for the widget.
         :param style: A style object. If no style is provided, a default style
             will be applied to the widget.
+        :param line_height: The line height for the label.
         :param kwargs: Initial style properties.
         """
         super().__init__(id, style, **kwargs)
 
         self.text = text
+        self.line_height = line_height
 
     def _create(self) -> Any:
-        return self.factory.Label(interface=self)
+        label = self.factory.Label(interface=self)
+        if self.line_height is not None:
+            label.set_line_height(self.line_height)
+        return label
 
     def focus(self) -> None:
         """No-op; Label cannot accept input focus."""
@@ -50,4 +56,15 @@ class Label(Widget):
             text = str(value)
 
         self._impl.set_text(text)
+        self.refresh()
+
+    @property
+    def line_height(self) -> float | None:
+        return self._line_height
+
+    @line_height.setter
+    def line_height(self, value: float | None) -> None:
+        self._line_height = value
+        if self._impl:
+            self._impl.set_line_height(value)
         self.refresh()
