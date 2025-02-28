@@ -30,9 +30,6 @@ class Label(Widget):
 
     def _create(self) -> Any:
         label = self.factory.Label(interface=self)
-        if self.line_height is not None:
-            label.set_line_height(self.line_height)
-        return label
 
     def focus(self) -> None:
         """No-op; Label cannot accept input focus."""
@@ -65,6 +62,5 @@ class Label(Widget):
     @line_height.setter
     def line_height(self, value: float | None) -> None:
         self._line_height = value
-        if self._impl:
-            self._impl.set_line_height(value)
+        self._impl.set_line_height(value)
         self.refresh()
