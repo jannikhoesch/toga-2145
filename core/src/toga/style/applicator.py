@@ -56,6 +56,9 @@ class TogaApplicator:
     def set_text_align(self, alignment: str) -> None:
         self.widget._impl.set_text_align(alignment)
 
+    def set_line_height(self, line_height: int) -> None:
+        self.widget._impl.set_line_height(line_height)
+
     def set_hidden(self, hidden: bool) -> None:
         self.widget._impl.set_hidden(hidden)
         for child in self.widget.children:
