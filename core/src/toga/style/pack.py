@@ -100,6 +100,8 @@ class Pack(BaseStyle):
 
     text_align: str | None = validated_property(LEFT, RIGHT, CENTER, JUSTIFY)
     text_direction: str | None = validated_property(RTL, LTR, initial=LTR)
+    
+    line_height: int | None = validated_property(integer=True, initial=20)
 
     font_family: str = validated_property(
         *SYSTEM_DEFAULT_FONTS, string=True, initial=SYSTEM
@@ -287,6 +289,8 @@ class Pack(BaseStyle):
                                 break
 
                     self._applicator.set_hidden(value == HIDDEN)
+                elif name == "line_height":
+                    self._applicator.set_line_height(self.line_height)
                 elif name in (
                     "font_family",
                     "font_size",
@@ -918,6 +922,10 @@ class Pack(BaseStyle):
         # text_align
         if self.text_align:
             css.append(f"text-align: {self.text_align};")
+
+        # line_height
+        if self.line_height:
+            css.append(f"line-height: {self.line_height};")
 
         # text_direction
         if self.text_direction != LTR:
